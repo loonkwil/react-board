@@ -25,8 +25,13 @@ export default class ReactBoardCell extends React.Component {
         let cellName = getCellName(props.rowIndex, props.cellIndex);
         let cellValue = (props.value === null) ? '' : props.value;
 
+        let className = 'react-board-cell';
+        if (props.isHighlighted) {
+            className += ' react-board-highlighted';
+        }
+
         return DOM.div({
-            className: 'react-board-cell',
+            className,
             'data-cell-value': cellValue,
             'data-cell-name': cellName
         });
@@ -36,9 +41,11 @@ export default class ReactBoardCell extends React.Component {
 ReactBoardCell.propTypes = {
     value: React.PropTypes.any,
     rowIndex: React.PropTypes.number.isRequired,
-    cellIndex: React.PropTypes.number.isRequired
+    cellIndex: React.PropTypes.number.isRequired,
+    isHighlighted: React.PropTypes.bool
 };
 
 ReactBoardCell.defaultProps = {
-    value: null
+    value: null,
+    isHighlighted: false
 };

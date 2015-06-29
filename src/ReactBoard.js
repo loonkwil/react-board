@@ -11,13 +11,18 @@ export default class ReactBoard extends React.Component {
         let props = this.props;
         let rows = (new Array(props.size)).
             fill(null).
-            map((oneItem, index) =>
-                React.createElement(ReactBoardRow, {
+            map((oneItem, index) => {
+                let highlightedCells = props.highlight.
+                    filter(([ rowIndex ]) => (rowIndex === index)).
+                    map(([ rowIndex, colIndex ]) => colIndex);
+
+                return React.createElement(ReactBoardRow, {
                     key: index,
                     rowIndex: index,
-                    values: props.values[index] || []
-                })
-            );
+                    values: props.values[index] || [],
+                    highlight: highlightedCells
+                });
+            });
 
         return DOM.div({ className: 'react-board' }, rows);
     }
@@ -44,9 +49,14 @@ ReactBoard.propTypes = {
      */
     values: React.PropTypes.arrayOf(
         React.PropTypes.arrayOf(React.PropTypes.any)
+    ),
+
+    highlight: React.PropTypes.arrayOf(
+        React.PropTypes.arrayOf(React.PropTypes.number)
     )
 };
 
 ReactBoard.defaultProps = {
-    values: []
+    values: [],
+    highlight: []
 };
