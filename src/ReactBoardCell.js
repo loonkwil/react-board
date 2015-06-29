@@ -5,23 +5,23 @@ import React from 'react';
 let DOM = React.DOM;
 
 /**
- * @param {number} rowIndex
- * @param {number} colIndex
+ * @param {number} row
+ * @param {number} col
  * @return {string}
  */
-let getCellName = function(rowIndex, colIndex) {
+let getCellName = function(row, col) {
     const first = 'a'.charCodeAt();
     const length = 'z'.charCodeAt() - first + 1;
 
-    let x = String.fromCharCode(first + (colIndex % length));
-    let y = rowIndex + 1;
+    let x = String.fromCharCode(first + (col % length));
+    let y = row + 1;
     return x + y;
 };
 
 
 export default class ReactBoardCell extends React.Component {
     render() {
-        let cellName = getCellName(this.props.rowIndex, this.props.colIndex);
+        let cellName = getCellName(this.props.row, this.props.col);
         let cellValue = (this.props.value === null) ? '' : this.props.value;
 
         let className = 'react-board-cell';
@@ -35,8 +35,8 @@ export default class ReactBoardCell extends React.Component {
             'data-cell-name': cellName,
             onClick: () => {
                 this.props.clickHandler({
-                    rowIndex: this.props.rowIndex,
-                    colIndex: this.props.colIndex,
+                    row: this.props.row,
+                    col: this.props.col,
                     cellName,
                     cellValue
                 });
@@ -46,9 +46,9 @@ export default class ReactBoardCell extends React.Component {
 }
 
 ReactBoardCell.propTypes = {
+    row: React.PropTypes.number.isRequired,
+    col: React.PropTypes.number.isRequired,
     value: React.PropTypes.any,
-    rowIndex: React.PropTypes.number.isRequired,
-    colIndex: React.PropTypes.number.isRequired,
     isHighlighted: React.PropTypes.bool,
     clickHandler: React.PropTypes.func
 };
