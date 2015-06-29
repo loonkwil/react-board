@@ -21,7 +21,8 @@ export default class ReactBoard extends React.Component {
                     values: this.props.values[index] || [],
                     highlight: highlightedCells
                 });
-            });
+            }).
+            reverse();
 
         return DOM.div({ className: 'react-board' }, rows);
     }
