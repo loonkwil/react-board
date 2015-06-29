@@ -14,6 +14,8 @@ import runSequence from 'run-sequence';
 import gulpLoadPlugins from 'gulp-load-plugins';
 const plugins = gulpLoadPlugins();
 
+import webpack from 'webpack-stream';
+
 
 // helpers
 /**
@@ -149,7 +151,7 @@ gulp.task('cleanup', (cb) =>
 
 gulp.task('webpack-build', () =>
     gulp.src(config.plugins.webpack.entry).
-        pipe(plugins.webpack(config.plugins.webpack)).
+        pipe(webpack(config.plugins.webpack)).
         pipe(gulp.dest(config.path.dist))
 );
 
