@@ -3,6 +3,12 @@
 React components for rendering the board for typical board games (like chess,
 reversi, etc.).
 
+# Install
+
+```bash
+npm install https://github.com/loonkwil/ReactBoard.git --save
+```
+
 # Usage
 
 ```javascript
