@@ -19,7 +19,8 @@ export default class ReactBoard extends React.Component {
                     key: index,
                     rowIndex: index,
                     values: this.props.values[index] || [],
-                    highlight: highlightedCells
+                    highlight: highlightedCells,
+                    clickHandler: this.props.clickHandler
                 });
             }).
             reverse();
@@ -53,10 +54,13 @@ ReactBoard.propTypes = {
 
     highlight: React.PropTypes.arrayOf(
         React.PropTypes.arrayOf(React.PropTypes.number)
-    )
+    ),
+
+    clickHandler: React.PropTypes.func
 };
 
 ReactBoard.defaultProps = {
     values: [],
-    highlight: []
+    highlight: [],
+    clickHandler: function() {}
 };

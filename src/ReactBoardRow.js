@@ -18,9 +18,10 @@ export default class ReactBoardRow extends React.Component {
                 return React.createElement(ReactBoardCell, {
                     key: index,
                     rowIndex: this.props.rowIndex,
-                    cellIndex: index,
+                    colIndex: index,
                     value: this.props.values[index] || null,
-                    isHighlighted
+                    isHighlighted,
+                    clickHandler: this.props.clickHandler
                 });
             });
 
@@ -35,10 +36,12 @@ ReactBoardRow.propTypes = {
     rowIndex: React.PropTypes.number.isRequired,
     highlight: React.PropTypes.arrayOf(
         React.PropTypes.number
-    )
+    ),
+    clickHandler: React.PropTypes.func
 };
 
 ReactBoardRow.defaultProps = {
     values: [],
-    highlight: []
+    highlight: [],
+    clickHandler: function() {}
 };
