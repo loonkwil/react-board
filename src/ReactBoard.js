@@ -8,18 +8,17 @@ let DOM = React.DOM;
 
 export default class ReactBoard extends React.Component {
     render() {
-        let props = this.props;
-        let rows = (new Array(props.size)).
+        let rows = (new Array(this.props.size)).
             fill(null).
             map((oneItem, index) => {
-                let highlightedCells = props.highlight.
+                let highlightedCells = this.props.highlight.
                     filter(([ rowIndex ]) => (rowIndex === index)).
                     map(([ rowIndex, colIndex ]) => colIndex);
 
                 return React.createElement(ReactBoardRow, {
                     key: index,
                     rowIndex: index,
-                    values: props.values[index] || [],
+                    values: this.props.values[index] || [],
                     highlight: highlightedCells
                 });
             });

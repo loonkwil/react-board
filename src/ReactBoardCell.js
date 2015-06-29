@@ -21,12 +21,11 @@ let getCellName = function(rowIndex, cellIndex) {
 
 export default class ReactBoardCell extends React.Component {
     render() {
-        let props = this.props;
-        let cellName = getCellName(props.rowIndex, props.cellIndex);
-        let cellValue = (props.value === null) ? '' : props.value;
+        let cellName = getCellName(this.props.rowIndex, this.props.cellIndex);
+        let cellValue = (this.props.value === null) ? '' : this.props.value;
 
         let className = 'react-board-cell';
-        if (props.isHighlighted) {
+        if (this.props.isHighlighted) {
             className += ' react-board-highlighted';
         }
 
