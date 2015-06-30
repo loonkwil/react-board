@@ -110,7 +110,7 @@ gulp.task('bump-tag', (cb) => {
     let version = getVersionNumberFromFile(packageFiles);
     let message = `Release v${version}`;
 
-    plugins.git.tag(version, message, cb);
+    plugins.git.tag(`v${version}`, message, cb);
 });
 
 
