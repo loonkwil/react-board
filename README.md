@@ -1,7 +1,13 @@
 # React Board
 
-React components for rendering the board for typical board games (like chess,
-reversi, etc.).
+[https://facebook.github.io/react](React) components for rendering the board
+for typical board games (like chess, reversi, etc.).
+
+Example usage: https://github.com/loonkwil/reversi
+
+It is written in ES2015 (previously called ES6), so you should use
+[https://babeljs.io](Babel) to transpile it (and probably
+[http://webpack.github.io](webpack) to load it).
 
 # Install
 
