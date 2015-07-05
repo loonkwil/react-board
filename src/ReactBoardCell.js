@@ -5,11 +5,11 @@ import React from 'react';
 let DOM = React.DOM;
 
 /**
- * @param {number} row
  * @param {number} col
+ * @param {number} row
  * @return {string}
  */
-let getCellName = function(row, col) {
+let getCellName = function(col, row) {
     const first = 'a'.charCodeAt();
     const length = 'z'.charCodeAt() - first + 1;
 
@@ -21,7 +21,7 @@ let getCellName = function(row, col) {
 
 export default class ReactBoardCell extends React.Component {
     render() {
-        let cellName = getCellName(this.props.row, this.props.col);
+        let cellName = getCellName(this.props.col, this.props.row);
         let cellValue = (this.props.value === null) ? '' : this.props.value;
 
         let className = 'react-board-cell';
@@ -33,14 +33,12 @@ export default class ReactBoardCell extends React.Component {
             className,
             'data-cell-value': cellValue,
             'data-cell-name': cellName,
-            onClick: () => {
-                this.props.clickHandler({
-                    row: this.props.row,
-                    col: this.props.col,
-                    cellName,
-                    cellValue
-                });
-            }
+            onClick: () => this.props.clickHandler({
+                col: this.props.col,
+                row: this.props.row,
+                cellName,
+                cellValue
+            })
         });
     }
 }

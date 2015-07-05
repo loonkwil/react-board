@@ -9,17 +9,24 @@ let DOM = React.DOM;
 export default class ReactBoard extends React.Component {
     render() {
         let rows = (new Array(this.props.size)).
-            fill(null).
-            map((oneItem, index) => {
+            fill(undefined).
+            map((v, row) => {
+                let valuesInOneRow = (new Array(this.props.size)).
+                    fill(undefined).
+                    map((v, col) => {
+                        let oneColumn = this.props.values[col] || [];
+                        return oneColumn[row] || null;
+                    });
+
                 let highlightedCells = this.props.highlight.
-                    filter(([ row ]) => (row === index)).
-                    map(([ row, col ]) => col);
+                    filter(([ hc, hr ]) => (hr === row)).
+                    map(([ hc ]) => hc);
 
                 return React.createElement(ReactBoardRow, {
-                    key: index,
-                    row: index,
+                    key: `*-${row}`,
+                    row,
                     size: this.props.size,
-                    values: this.props.values[index] || [],
+                    values: valuesInOneRow,
                     highlight: highlightedCells,
                     clickHandler: this.props.clickHandler
                 });
@@ -42,28 +49,31 @@ ReactBoard.propTypes = {
      * a2 b2 c2 d2
      * a1 b1 c1 d1
      *
+     *
      * Then the order of the `values` array should look like this:
      * values = [
-     *   [ a1, b1, c1, d1 ],
-     *   [ a2, b2, c2, d2 ],
-     *   [ a3, b3, c3, d3 ],
-     *   [ a4, b4, c4, d4 ]
+     *   [ a1, a2, a3, a4 ],
+     *   [ b1, b2, b3, b4 ],
+     *   [ c1, c2, c3, c4 ],
+     *   [ d1, d2, d3, d4 ]
      * ]
      *
      * If the table is empty, you can just pass an empty array (or `undefined`):
      * values = []
      *
-     * If one row is empty:
+     * If one column is empty:
      * values = [
-     *   [ a1, b1 ],
-     *   []
+     *   [ a1, a2, a3, a4 ],
+     *   [],
+     *   [ c1, c2, c3, c4 ]
      * ]
      *
-     * If the second part of the row is empty:
+     * If the second part of the column is empty:
      * values = [
-     *   [ a1, b1, c1 ],
-     *   [ a2 ],
-     *   [ a3, b3 ],
+     *   [ a1, a2, a3 ],
+     *   [ b1 ],
+     *   [ c1, c2 ],
+     *   [ d1, d2, d3, d4 ]
      * ]
      */
     values: React.PropTypes.arrayOf(
@@ -73,13 +83,14 @@ ReactBoard.propTypes = {
     /*
      * You can highlight some of the cells with this parameter.
      * if your table look like this:
-     * a3 b3 c3
-     * a2 b2 c2
-     * a1 b1 c1
+     * a4 b4 c4 d4
+     * a3 b3 c3 d3
+     * a2 b2 c2 d2
+     * a1 b1 c1 d1
      *
      * and you want to highlight the a1 and the b3 cells, then the `highlight`
      * parameter should look like this:
-     * highlight = [ [ 0, 0 ], [ 2, 1 ] ]
+     * highlight = [ [ 0, 0 ], [ 1, 2 ] ]
      */
     highlight: React.PropTypes.arrayOf(
         React.PropTypes.arrayOf(React.PropTypes.number)

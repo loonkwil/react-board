@@ -9,23 +9,21 @@ let DOM = React.DOM;
 export default class ReactBoardRow extends React.Component {
     render() {
         let cells = (new Array(this.props.size)).
-            fill(null).
-            map((oneItem, index) => {
-                let isHighlighted = (this.props.highlight.indexOf(index) > -1);
+            fill(undefined).
+            map((v, col) => {
+                let isHighlighted = (this.props.highlight.indexOf(col) > -1);
 
                 return React.createElement(ReactBoardCell, {
-                    key: index,
+                    key: `${col}-${this.props.row}`,
                     row: this.props.row,
-                    col: index,
-                    value: this.props.values[index] || null,
+                    col,
+                    value: this.props.values[col],
                     isHighlighted,
                     clickHandler: this.props.clickHandler
                 });
             });
 
-        return DOM.div({
-            className: 'react-board-row'
-        }, cells);
+        return DOM.div({ className: 'react-board-row' }, cells);
     }
 }
 
