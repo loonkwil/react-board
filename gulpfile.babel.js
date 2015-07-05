@@ -140,7 +140,7 @@ gulp.task('jsonlint', () =>
 // Task for distributing
 // Usage: `gulp`, `npm start`, `gulp dist` or `gulp build`
 gulp.task('default', [ 'dist' ]);
-gulp.task('build', [ 'dist' ])
+gulp.task('build', [ 'dist' ]);
 
 gulp.task('dist', (cb) =>
     runSequence('cleanup', 'webpack-build', cb)
