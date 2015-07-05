@@ -96,25 +96,30 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function render() {
 	            var _this = this;
 
-	            var rows = new Array(this.props.size).fill(null).map(function (oneItem, index) {
+	            var rows = new Array(this.props.size).fill(undefined).map(function (v, row) {
+	                var valuesInOneRow = new Array(_this.props.size).fill(undefined).map(function (v, col) {
+	                    var oneColumn = _this.props.values[col] || [];
+	                    return oneColumn[row] || null;
+	                });
+
 	                var highlightedCells = _this.props.highlight.filter(function (_ref) {
-	                    var _ref2 = _slicedToArray(_ref, 1);
+	                    var _ref2 = _slicedToArray(_ref, 2);
 
-	                    var row = _ref2[0];
-	                    return row === index;
+	                    var hc = _ref2[0];
+	                    var hr = _ref2[1];
+	                    return hr === row;
 	                }).map(function (_ref3) {
-	                    var _ref32 = _slicedToArray(_ref3, 2);
+	                    var _ref32 = _slicedToArray(_ref3, 1);
 
-	                    var row = _ref32[0];
-	                    var col = _ref32[1];
-	                    return col;
+	                    var hc = _ref32[0];
+	                    return hc;
 	                });
 
 	                return _react2['default'].createElement(_ReactBoardRow2['default'], {
-	                    key: index,
-	                    row: index,
+	                    key: '*-' + row,
+	                    row: row,
 	                    size: _this.props.size,
-	                    values: _this.props.values[index] || [],
+	                    values: valuesInOneRow,
 	                    highlight: highlightedCells,
 	                    clickHandler: _this.props.clickHandler
 	                });
@@ -141,28 +146,31 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * a2 b2 c2 d2
 	     * a1 b1 c1 d1
 	     *
+	     *
 	     * Then the order of the `values` array should look like this:
 	     * values = [
-	     *   [ a1, b1, c1, d1 ],
-	     *   [ a2, b2, c2, d2 ],
-	     *   [ a3, b3, c3, d3 ],
-	     *   [ a4, b4, c4, d4 ]
+	     *   [ a1, a2, a3, a4 ],
+	     *   [ b1, b2, b3, b4 ],
+	     *   [ c1, c2, c3, c4 ],
+	     *   [ d1, d2, d3, d4 ]
 	     * ]
 	     *
 	     * If the table is empty, you can just pass an empty array (or `undefined`):
 	     * values = []
 	     *
-	     * If one row is empty:
+	     * If one column is empty:
 	     * values = [
-	     *   [ a1, b1 ],
-	     *   []
+	     *   [ a1, a2, a3, a4 ],
+	     *   [],
+	     *   [ c1, c2, c3, c4 ]
 	     * ]
 	     *
-	     * If the second part of the row is empty:
+	     * If the second part of the column is empty:
 	     * values = [
-	     *   [ a1, b1, c1 ],
-	     *   [ a2 ],
-	     *   [ a3, b3 ],
+	     *   [ a1, a2, a3 ],
+	     *   [ b1 ],
+	     *   [ c1, c2 ],
+	     *   [ d1, d2, d3, d4 ]
 	     * ]
 	     */
 	    values: _react2['default'].PropTypes.arrayOf(_react2['default'].PropTypes.arrayOf(_react2['default'].PropTypes.any)),
@@ -170,13 +178,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	    /*
 	     * You can highlight some of the cells with this parameter.
 	     * if your table look like this:
-	     * a3 b3 c3
-	     * a2 b2 c2
-	     * a1 b1 c1
+	     * a4 b4 c4 d4
+	     * a3 b3 c3 d3
+	     * a2 b2 c2 d2
+	     * a1 b1 c1 d1
 	     *
 	     * and you want to highlight the a1 and the b3 cells, then the `highlight`
 	     * parameter should look like this:
-	     * highlight = [ [ 0, 0 ], [ 2, 1 ] ]
+	     * highlight = [ [ 0, 0 ], [ 1, 2 ] ]
 	     */
 	    highlight: _react2['default'].PropTypes.arrayOf(_react2['default'].PropTypes.arrayOf(_react2['default'].PropTypes.number)),
 
@@ -241,22 +250,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function render() {
 	            var _this = this;
 
-	            var cells = new Array(this.props.size).fill(null).map(function (oneItem, index) {
-	                var isHighlighted = _this.props.highlight.indexOf(index) > -1;
+	            var cells = new Array(this.props.size).fill(undefined).map(function (v, col) {
+	                var isHighlighted = _this.props.highlight.indexOf(col) > -1;
 
 	                return _react2['default'].createElement(_ReactBoardCell2['default'], {
-	                    key: index,
+	                    key: col + '-' + _this.props.row,
 	                    row: _this.props.row,
-	                    col: index,
-	                    value: _this.props.values[index] || null,
+	                    col: col,
+	                    value: _this.props.values[col],
 	                    isHighlighted: isHighlighted,
 	                    clickHandler: _this.props.clickHandler
 	                });
 	            });
 
-	            return DOM.div({
-	                className: 'react-board-row'
-	            }, cells);
+	            return DOM.div({ className: 'react-board-row' }, cells);
 	        }
 	    }]);
 
@@ -307,11 +314,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	var DOM = _react2['default'].DOM;
 
 	/**
-	 * @param {number} row
 	 * @param {number} col
+	 * @param {number} row
 	 * @return {string}
 	 */
-	var getCellName = function getCellName(row, col) {
+	var getCellName = function getCellName(col, row) {
 	    var first = 'a'.charCodeAt();
 	    var length = 'z'.charCodeAt() - first + 1;
 
@@ -334,7 +341,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function render() {
 	            var _this = this;
 
-	            var cellName = getCellName(this.props.row, this.props.col);
+	            var cellName = getCellName(this.props.col, this.props.row);
 	            var cellValue = this.props.value === null ? '' : this.props.value;
 
 	            var className = 'react-board-cell';
@@ -347,9 +354,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                'data-cell-value': cellValue,
 	                'data-cell-name': cellName,
 	                onClick: function onClick() {
-	                    _this.props.clickHandler({
-	                        row: _this.props.row,
+	                    return _this.props.clickHandler({
 	                        col: _this.props.col,
+	                        row: _this.props.row,
 	                        cellName: cellName,
 	                        cellValue: cellValue
 	                    });
