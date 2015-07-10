@@ -139,7 +139,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	    size: _react2['default'].PropTypes.number.isRequired,
 
 	    /*
-	     * Values of the cells.
+	     * Values of the cells. Every value must be a primitive value (number,
+	     * string, null, undefined or boolean).
+	     *
 	     * If you have an 4x4 board and the order of the cells are the following:
 	     * a4 b4 c4 d4
 	     * a3 b3 c3 d3
@@ -236,6 +238,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var DOM = _react2['default'].DOM;
 
+	/**
+	 * @param {Array.<number|string|null|undefined|boolean>} arr1
+	 * @param {Array.<number|string|null|undefined|boolean>} arr2
+	 * @return {boolean}
+	 */
+	var arrayEq = function arrayEq(arr1, arr2) {
+	    return arr1.every(function (v, i) {
+	        return v === arr2[i];
+	    });
+	};
+
 	var ReactBoardRow = (function (_React$Component) {
 	    function ReactBoardRow() {
 	        _classCallCheck(this, ReactBoardRow);
@@ -246,6 +259,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _inherits(ReactBoardRow, _React$Component);
 
 	    _createClass(ReactBoardRow, [{
+	        key: 'shouldComponentUpdate',
+	        value: function shouldComponentUpdate(nextProps) {
+	            return !arrayEq(this.props.values, nextProps.values) || !arrayEq(this.props.highlight, nextProps.highlight) || this.props.size !== nextProps.size || this.props.clickHandler !== nextProps.clickHandler;
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var _this = this;
@@ -337,6 +355,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    _inherits(ReactBoardCell, _React$Component);
 
 	    _createClass(ReactBoardCell, [{
+	        key: 'shouldComponentUpdate',
+	        value: function shouldComponentUpdate(nextProps) {
+	            return this.props.value !== nextProps.value || this.props.isHighlighted !== nextProps.isHighlighted || this.props.clickHandler !== nextProps.clickHandler;
+	        }
+	    }, {
 	        key: 'render',
 	        value: function render() {
 	            var _this = this;
@@ -373,7 +396,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	ReactBoardCell.propTypes = {
 	    row: _react2['default'].PropTypes.number.isRequired,
 	    col: _react2['default'].PropTypes.number.isRequired,
-	    value: _react2['default'].PropTypes.any,
+	    value: function value(props, propName) {
+	        var value = props[propName];
+	        var validTypes = ['undefined', 'string', 'number', 'boolean'];
+	        if (value !== null && validTypes.indexOf(typeof value) === -1) {
+	            return new Error('The value of the cell should be a primitive ' + 'value (number, string, null, undefined or boolean)!');
+	        }
+	    },
 	    isHighlighted: _react2['default'].PropTypes.bool,
 	    clickHandler: _react2['default'].PropTypes.func
 	};
