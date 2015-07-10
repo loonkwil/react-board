@@ -5,8 +5,26 @@ import ReactBoardCell from './ReactBoardCell';
 
 let DOM = React.DOM;
 
+/**
+ * @param {Array.<number|string|null|undefined|boolean>} arr1
+ * @param {Array.<number|string|null|undefined|boolean>} arr2
+ * @return {boolean}
+ */
+let arrayEq = function(arr1, arr2) {
+    return arr1.every((v, i) => (v === arr2[i]));
+};
+
 
 export default class ReactBoardRow extends React.Component {
+    shouldComponentUpdate(nextProps) {
+        return (
+            !arrayEq(this.props.values, nextProps.values) ||
+            !arrayEq(this.props.highlight, nextProps.highlight) ||
+            this.props.size !== nextProps.size ||
+            this.props.clickHandler !== nextProps.clickHandler
+        );
+    }
+
     render() {
         let cells = (new Array(this.props.size)).
             fill(undefined).

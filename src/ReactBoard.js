@@ -42,7 +42,9 @@ ReactBoard.propTypes = {
     size: React.PropTypes.number.isRequired,
 
     /*
-     * Values of the cells.
+     * Values of the cells. Every value must be a primitive value (number,
+     * string, null, undefined or boolean).
+     *
      * If you have an 4x4 board and the order of the cells are the following:
      * a4 b4 c4 d4
      * a3 b3 c3 d3

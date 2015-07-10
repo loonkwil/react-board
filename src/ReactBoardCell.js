@@ -20,6 +20,14 @@ let getCellName = function(col, row) {
 
 
 export default class ReactBoardCell extends React.Component {
+    shouldComponentUpdate(nextProps) {
+        return (
+            this.props.value !== nextProps.value ||
+            this.props.isHighlighted !== nextProps.isHighlighted ||
+            this.props.clickHandler !== nextProps.clickHandler
+        );
+    }
+
     render() {
         let cellName = getCellName(this.props.col, this.props.row);
         let cellValue = (this.props.value === null) ? '' : this.props.value;
@@ -46,7 +54,14 @@ export default class ReactBoardCell extends React.Component {
 ReactBoardCell.propTypes = {
     row: React.PropTypes.number.isRequired,
     col: React.PropTypes.number.isRequired,
-    value: React.PropTypes.any,
+    value: (props, propName) => {
+        let value = props[propName];
+        const validTypes = [ 'undefined', 'string', 'number', 'boolean' ];
+        if (value !== null && validTypes.indexOf(typeof value) === -1) {
+            return new Error('The value of the cell should be a primitive ' +
+                'value (number, string, null, undefined or boolean)!');
+        }
+    },
     isHighlighted: React.PropTypes.bool,
     clickHandler: React.PropTypes.func
 };
