@@ -35,7 +35,7 @@ export default class ReactBoardRow extends React.Component {
                 let isHighlighted = (this.props.highlight.indexOf(col) > -1);
 
                 return React.createElement(ReactBoardCell, {
-                    key: `${col}-${this.props.row}`,
+                    key: col,
                     row: this.props.row,
                     col,
                     value: this.props.values[col],

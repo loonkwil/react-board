@@ -23,7 +23,7 @@ export default class ReactBoard extends React.Component {
                     map(([ hc ]) => hc);
 
                 return React.createElement(ReactBoardRow, {
-                    key: `*-${row}`,
+                    key: row,
                     row,
                     size: this.props.size,
                     values: valuesInOneRow,
