@@ -11,7 +11,10 @@ let DOM = React.DOM;
  * @return {boolean}
  */
 let arrayEq = function(arr1, arr2) {
-    return arr1.every((v, i) => (v === arr2[i]));
+    return (
+        arr1.length === arr2.length &&
+        arr1.every((v, i) => (v === arr2[i]))
+    );
 };
 
 
