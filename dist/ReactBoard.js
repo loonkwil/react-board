@@ -83,13 +83,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	var DOM = _react2['default'].DOM;
 
 	var ReactBoard = (function (_React$Component) {
+	    _inherits(ReactBoard, _React$Component);
+
 	    function ReactBoard() {
 	        _classCallCheck(this, ReactBoard);
 
 	        _get(Object.getPrototypeOf(ReactBoard.prototype), 'constructor', this).apply(this, arguments);
 	    }
-
-	    _inherits(ReactBoard, _React$Component);
 
 	    _createClass(ReactBoard, [{
 	        key: 'render',
@@ -244,19 +244,19 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @return {boolean}
 	 */
 	var arrayEq = function arrayEq(arr1, arr2) {
-	    return arr1.every(function (v, i) {
+	    return arr1.length === arr2.length && arr1.every(function (v, i) {
 	        return v === arr2[i];
 	    });
 	};
 
 	var ReactBoardRow = (function (_React$Component) {
+	    _inherits(ReactBoardRow, _React$Component);
+
 	    function ReactBoardRow() {
 	        _classCallCheck(this, ReactBoardRow);
 
 	        _get(Object.getPrototypeOf(ReactBoardRow.prototype), 'constructor', this).apply(this, arguments);
 	    }
-
-	    _inherits(ReactBoardRow, _React$Component);
 
 	    _createClass(ReactBoardRow, [{
 	        key: 'shouldComponentUpdate',
@@ -346,13 +346,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 	var ReactBoardCell = (function (_React$Component) {
+	    _inherits(ReactBoardCell, _React$Component);
+
 	    function ReactBoardCell() {
 	        _classCallCheck(this, ReactBoardCell);
 
 	        _get(Object.getPrototypeOf(ReactBoardCell.prototype), 'constructor', this).apply(this, arguments);
 	    }
-
-	    _inherits(ReactBoardCell, _React$Component);
 
 	    _createClass(ReactBoardCell, [{
 	        key: 'shouldComponentUpdate',
