@@ -1,6 +1,6 @@
 # React Board
 
-[https://facebook.github.io/react](React) components for rendering the board
+[React](https://facebook.github.io/react) components for rendering the board
 for typical board games (like chess, reversi, etc.).
 
 Example usage: https://github.com/loonkwil/reversi
