@@ -6,8 +6,8 @@ for typical board games (like chess, reversi, etc.).
 Example usage: https://github.com/loonkwil/reversi
 
 It is written in ES2015 (previously called ES6), so you should use
-[https://babeljs.io](Babel) to transpile it (and probably
-[http://webpack.github.io](webpack) to load it).
+[Babel](https://babeljs.io) to transpile it (and probably
+[webpack](http://webpack.github.io) to load it).
 
 # Install
 
@@ -67,5 +67,4 @@ release commit, use the `gulp release [--version <version>|-r <version>]` task.
 Version could be: major (1.0.0), minor (0.1.0), patch (0.0.2) (this one is the
 default), or a specific version number like: 1.2.3 or 1.0.0-alpha
 
-More about the Semantic Versioning: [http://semver.org](http://semver.org)
-
+More about the Semantic Versioning: http://semver.org
