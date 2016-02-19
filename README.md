@@ -22,25 +22,36 @@ import React from 'React';
 import ReactBoard from 'ReactBoard';
 
 export default class ChessApp extends React.Component {
+    constructor(props) {
+        super(props);
+
+        // The this.board[0][0] will be in the bottom left corner and
+        // the this.board[7][0] in the bottom right
+        this.board = [
+            [ '♖', '♙', ' ', ' ', ' ', ' ', '♟', '♜' ],
+            [ '♘', '♙', ' ', ' ', ' ', ' ', '♟', '♞' ],
+            [ '♗', '♙', ' ', ' ', ' ', ' ', '♟', '♝' ],
+            [ '♕', '♙', ' ', ' ', ' ', ' ', '♟', '♛' ],
+            [ '♔', ' ', ' ', '♙', ' ', ' ', '♟', '♚' ],
+            [ '♗', '♙', ' ', ' ', ' ', ' ', '♟', '♝' ],
+            [ '♘', '♙', ' ', ' ', ' ', ' ', '♟', '♞' ],
+            [ '♖', '♙', ' ', ' ', ' ', ' ', '♟', '♜' ],
+        ];
+
+        # https://facebook.github.io/react/blog/2015/01/27/react-v0.13.0-beta-1.html#autobinding
+        this.clickHandler = this.clickHandler.bind(this);
+    }
+
+    clickHandler({ col, row }) {
+        // ...
+    }
+
     render() {
         return React.createElement(ReactBoard, {
             size: 8,
-            // The values[0][0] will be in the bottom left corner and
-            // the values[7][0] in the bottom right
-            values: [
-                [ '♖', '♙', '', '', '', '', '♟', '♜' ],
-                [ '♘', '♙', '', '', '', '', '♟', '♞' ],
-                [ '♗', '♙', '', '', '', '', '♟', '♝' ],
-                [ '♕', '♙', '', '', '', '', '♟', '♛' ],
-                [ '♔', '', '', '♙', '', '', '♟', '♚' ],
-                [ '♗', '♙', '', '', '', '', '♟', '♝' ],
-                [ '♘', '♙', '', '', '', '', '♟', '♞' ],
-                [ '♖', '♙', '', '', '', '', '♟', '♜' ],
-            ],
+            values: this.board,
             highlight: [ [ 4 /* col index */, 3 /* row index */, ] ],
-            clickHandler: ({ col, row }) => {
-                // ...
-            }
+            clickHandler: this.clickHandler,
         });
     }
 }
