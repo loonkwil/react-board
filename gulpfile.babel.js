@@ -121,7 +121,9 @@ gulp.task('test', [ 'lint' ]);
 gulp.task('lint', [ 'jscs', 'jshint', 'jsonlint' ]);
 
 gulp.task('jscs', () =>
-    gulp.src(config.filesForAnalyze.js).pipe(plugins.jscs())
+    gulp.src(config.filesForAnalyze.js).
+        pipe(plugins.jscs()).
+        pipe(plugins.jscs.reporter())
 );
 
 gulp.task('jshint', () =>
@@ -146,8 +148,8 @@ gulp.task('dist', (cb) =>
     runSequence('cleanup', 'webpack-build', cb)
 );
 
-gulp.task('cleanup', (cb) =>
-    del(config.path.dist, cb)
+gulp.task('cleanup', () =>
+    del(config.path.dist)
 );
 
 gulp.task('webpack-build', () =>

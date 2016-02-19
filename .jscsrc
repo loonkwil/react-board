@@ -53,9 +53,17 @@
   "safeContextKeyword": "that",
   "requireDotNotation": true,
   "disallowYodaConditions": true,
-  "validateJSDoc": {
+  "jsDoc": {
+    "checkAnnotations": "closurecompiler",
+    "checkParamExistence": true,
     "checkParamNames": true,
-    "requireParamTypes": true
+    "requireParamTypes": true,
+    "checkRedundantParams": true,
+    "checkReturnTypes": true,
+    "checkRedundantReturns": true,
+    "requireReturnTypes": true,
+    "checkTypes": true,
+    "checkRedundantAccess": "enforceLeadingUnderscore"
   },
   "excludeFiles": [ "node_modules/**", "bower_components/**", "**.min.js" ],
   "esnext": true
