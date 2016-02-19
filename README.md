@@ -25,18 +25,20 @@ export default class ChessApp extends React.Component {
     render() {
         return React.createElement(ReactBoard, {
             size: 8,
+            // The values[0][0] will be in the bottom left corner and
+            // the values[7][0] in the bottom right
             values: [
-                [ '♖', '♘', '♗', '♕', '♔', '♗', '♘', '♖' ],
-                [ '♙', '♙', '♙', '♙',  '', '♙', '♙', '♙' ],
-                [ ],
-                [  '',  '',  '',  '', '♙', '',  '',  ''  ],
-                [ ],
-                [ ],
-                [ '♟', '♟', '♟', '♟', '♟', '♟', '♟', '♟' ],
-                [ '♜', '♞', '♝', '♛', '♚', '♝', '♞', '♜' ]
+                [ '♖', '♙', '', '', '', '', '♟', '♜' ],
+                [ '♘', '♙', '', '', '', '', '♟', '♞' ],
+                [ '♗', '♙', '', '', '', '', '♟', '♝' ],
+                [ '♕', '♙', '', '', '', '', '♟', '♛' ],
+                [ '♔', '', '', '♙', '', '', '♟', '♚' ],
+                [ '♗', '♙', '', '', '', '', '♟', '♝' ],
+                [ '♘', '♙', '', '', '', '', '♟', '♞' ],
+                [ '♖', '♙', '', '', '', '', '♟', '♜' ],
             ],
-            highlight: [ [ 3, 5 ] ],
-            clickHandler: ({ row, col }) => {
+            highlight: [ [ 4 /* col index */, 3 /* row index */, ] ],
+            clickHandler: ({ col, row }) => {
                 // ...
             }
         });
