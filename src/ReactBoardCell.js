@@ -2,19 +2,19 @@
 
 import React from 'react';
 
-let DOM = React.DOM;
+const DOM = React.DOM;
 
 /**
  * @param {number} col
  * @param {number} row
  * @return {string}
  */
-let getCellName = function(col, row) {
+const getCellName = (col, row) => {
     const first = 'a'.charCodeAt();
     const length = 'z'.charCodeAt() - first + 1;
 
-    let x = String.fromCharCode(first + (col % length));
-    let y = row + 1;
+    const x = String.fromCharCode(first + (col % length));
+    const y = row + 1;
     return x + y;
 };
 
@@ -29,23 +29,23 @@ export default class ReactBoardCell extends React.Component {
     }
 
     render() {
-        let cellName = getCellName(this.props.col, this.props.row);
-        let cellValue = (this.props.value === null) ? '' : this.props.value;
+        const cellName = getCellName(this.props.col, this.props.row);
+        const cellValue = (this.props.value === null) ? '' : this.props.value;
 
-        let className = 'react-board-cell';
+        const classNames = [ 'react-board-cell' ];
         if (this.props.isHighlighted) {
-            className += ' react-board-highlighted';
+            classNames.push('react-board-highlighted');
         }
 
         return DOM.div({
-            className,
+            className: classNames.join(' '),
             'data-cell-value': cellValue,
             'data-cell-name': cellName,
             onClick: () => this.props.clickHandler({
                 col: this.props.col,
                 row: this.props.row,
                 cellName,
-                cellValue
+                cellValue,
             })
         });
     }
@@ -55,7 +55,7 @@ ReactBoardCell.propTypes = {
     row: React.PropTypes.number.isRequired,
     col: React.PropTypes.number.isRequired,
     value: (props, propName) => {
-        let value = props[propName];
+        const value = props[propName];
         const validTypes = [ 'undefined', 'string', 'number', 'boolean' ];
         if (value !== null && validTypes.indexOf(typeof value) === -1) {
             return new Error('The value of the cell should be a primitive ' +
@@ -63,11 +63,11 @@ ReactBoardCell.propTypes = {
         }
     },
     isHighlighted: React.PropTypes.bool,
-    clickHandler: React.PropTypes.func
+    clickHandler: React.PropTypes.func,
 };
 
 ReactBoardCell.defaultProps = {
     value: null,
     isHighlighted: false,
-    clickHandler: function() {}
+    clickHandler: function() {},
 };

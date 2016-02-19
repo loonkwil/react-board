@@ -3,22 +3,23 @@
 import React from 'react';
 import ReactBoardRow from './ReactBoardRow';
 
-let DOM = React.DOM;
+const DOM = React.DOM;
 
 
 export default class ReactBoard extends React.Component {
     render() {
-        let rows = (new Array(this.props.size)).
-            fill(undefined).
-            map((v, row) => {
-                let valuesInOneRow = (new Array(this.props.size)).
-                    fill(undefined).
-                    map((v, col) => {
-                        let oneColumn = this.props.values[col] || [];
+        const rows = Array.from(
+            new Array(this.props.size),
+            (_, row) => {
+                const valuesInOneRow = Array.from(
+                    new Array(this.props.size),
+                    (_, colIndex) => {
+                        const oneColumn = this.props.values[colIndex] || [];
                         return oneColumn[row] || null;
-                    });
+                    }
+                );
 
-                let highlightedCells = this.props.highlight.
+                const highlightedCells = this.props.highlight.
                     filter(([ hc, hr ]) => (hr === row)).
                     map(([ hc ]) => hc);
 
@@ -28,10 +29,10 @@ export default class ReactBoard extends React.Component {
                     size: this.props.size,
                     values: valuesInOneRow,
                     highlight: highlightedCells,
-                    clickHandler: this.props.clickHandler
+                    clickHandler: this.props.clickHandler,
                 });
-            }).
-            reverse();
+            }
+        ).reverse();
 
         return DOM.div({ className: 'react-board' }, rows);
     }
@@ -99,11 +100,11 @@ ReactBoard.propTypes = {
     ),
 
     /* Do something when the user click the cells */
-    clickHandler: React.PropTypes.func
+    clickHandler: React.PropTypes.func,
 };
 
 ReactBoard.defaultProps = {
     values: [],
     highlight: [],
-    clickHandler: function() {}
+    clickHandler: function() {},
 };
