@@ -160,7 +160,7 @@ gulp.task('webpack-build', () =>
 
 
 // Task for releasing
-// Usage: `gulp release [--version <version>|-r <version>]`
+// Usage: `gulp release [--version <version>|-v <version>]`
 gulp.task('release', (cb) =>
     runSequence('dist', 'bump', cb)
 );
