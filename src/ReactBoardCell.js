@@ -5,17 +5,50 @@ import React from 'react';
 const DOM = React.DOM;
 
 /**
+ * Returns an array of elements from start to end, inclusive
+ * @param {number} start
+ * @param {number} end
+ * @return {Array.<number>}
+ */
+const range = function(start, end) {
+    return Array.from(
+        new Array(end - start + 1),
+        (_, i) => start + i
+    );
+};
+
+/**
+ * @param {number} col
+ * @return {string}
+ */
+const getColName = (function() {
+    const signs = range('a'.charCodeAt(), 'z'.charCodeAt()).
+        map((code) => String.fromCharCode(code));
+
+    return function getColName(col) {
+        if (col < signs.length) {
+            return signs[col];
+        }
+        return getColName(Math.floor(col / signs.length) - 1) +
+            getColName(col % signs.length);
+    };
+}());
+
+/**
+ * @param {number} row
+ * @return {string}
+ */
+const getRowName = function(row) {
+    return (row + 1).toString();
+};
+
+/**
  * @param {number} col
  * @param {number} row
  * @return {string}
  */
-const getCellName = (col, row) => {
-    const first = 'a'.charCodeAt();
-    const length = 'z'.charCodeAt() - first + 1;
-
-    const x = String.fromCharCode(first + (col % length));
-    const y = row + 1;
-    return x + y;
+const getCellName = function(col, row) {
+    return getColName(col) + getRowName(row);
 };
 
 
