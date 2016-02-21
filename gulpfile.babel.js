@@ -145,7 +145,7 @@ gulp.task('default', [ 'dist' ]);
 gulp.task('build', [ 'dist' ]);
 
 gulp.task('dist', (cb) =>
-    runSequence('cleanup', 'webpack-build', cb)
+    runSequence('cleanup', 'webpack-build', 'minify', cb)
 );
 
 gulp.task('cleanup', () =>
@@ -155,6 +155,13 @@ gulp.task('cleanup', () =>
 gulp.task('webpack-build', () =>
     gulp.src(config.plugins.webpack.entry).
         pipe(webpack(config.plugins.webpack)).
+        pipe(gulp.dest(config.path.dist))
+);
+
+gulp.task('minify', () =>
+    gulp.src(config.path.dist + '/*.js').
+        pipe(plugins.uglify()).
+        pipe(plugins.rename({ suffix: '.min' })).
         pipe(gulp.dest(config.path.dist))
 );
 
