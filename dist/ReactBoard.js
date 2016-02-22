@@ -1,10 +1,10 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory(require("react"));
+		module.exports = factory(require("React"));
 	else if(typeof define === 'function' && define.amd)
-		define(["react"], factory);
+		define(["React"], factory);
 	else if(typeof exports === 'object')
-		exports["ReactBoard"] = factory(require("react"));
+		exports["ReactBoard"] = factory(require("React"));
 	else
 		root["ReactBoard"] = factory(root["React"]);
 })(this, function(__WEBPACK_EXTERNAL_MODULE_1__) {
@@ -62,8 +62,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
 	var _react = __webpack_require__(1);
 
 	var _react2 = _interopRequireDefault(_react);
@@ -74,76 +72,53 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
 	var DOM = _react2.default.DOM;
 
-	var ReactBoard = function (_React$Component) {
-	    _inherits(ReactBoard, _React$Component);
+	var ReactBoard = function ReactBoard(_ref) {
+	    var size = _ref.size;
+	    var values = _ref.values;
+	    var highlight = _ref.highlight;
+	    var clickHandler = _ref.clickHandler;
 
-	    function ReactBoard() {
-	        _classCallCheck(this, ReactBoard);
+	    var _ref2 = Array.isArray(size) ? size : [size, size];
 
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(ReactBoard).apply(this, arguments));
-	    }
+	    var _ref3 = _slicedToArray(_ref2, 2);
 
-	    _createClass(ReactBoard, [{
-	        key: 'render',
-	        value: function render() {
-	            var _this2 = this;
-
-	            var size = this.props.size;
-
-	            var _ref = Array.isArray(size) ? size : [size, size];
-
-	            var _ref2 = _slicedToArray(_ref, 2);
-
-	            var width = _ref2[0];
-	            var height = _ref2[1];
+	    var width = _ref3[0];
+	    var height = _ref3[1];
 
 
-	            var rows = Array.from(new Array(height), function (_, row) {
-	                var valuesInOneRow = Array.from(new Array(width), function (_, colIndex) {
-	                    var oneColumn = _this2.props.values[colIndex] || [];
-	                    return oneColumn[row];
-	                });
+	    var rows = Array.from(new Array(height), function (_, row) {
+	        var valuesInOneRow = Array.from(new Array(width), function (_, colIndex) {
+	            var oneColumn = values[colIndex] || [];
+	            return oneColumn[row];
+	        });
 
-	                var highlightedCells = _this2.props.highlight.filter(function (_ref3) {
-	                    var _ref4 = _slicedToArray(_ref3, 2);
+	        var highlightedCells = highlight.filter(function (_ref4) {
+	            var _ref5 = _slicedToArray(_ref4, 2);
 
-	                    var hc = _ref4[0];
-	                    var hr = _ref4[1];
-	                    return hr === row;
-	                }).map(function (_ref5) {
-	                    var _ref6 = _slicedToArray(_ref5, 1);
+	            var hc = _ref5[0];
+	            var hr = _ref5[1];
+	            return hr === row;
+	        }).map(function (_ref6) {
+	            var _ref7 = _slicedToArray(_ref6, 1);
 
-	                    var hc = _ref6[0];
-	                    return hc;
-	                });
+	            var hc = _ref7[0];
+	            return hc;
+	        });
 
-	                return _react2.default.createElement(_ReactBoardRow2.default, {
-	                    key: row,
-	                    row: row,
-	                    size: width,
-	                    values: valuesInOneRow,
-	                    highlight: highlightedCells,
-	                    clickHandler: _this2.props.clickHandler
-	                });
-	            }).reverse();
+	        return _react2.default.createElement(_ReactBoardRow2.default, {
+	            key: row,
+	            row: row,
+	            size: width,
+	            values: valuesInOneRow,
+	            highlight: highlightedCells,
+	            clickHandler: clickHandler
+	        });
+	    }).reverse();
 
-	            return DOM.div({ className: 'react-board' }, rows);
-	        }
-	    }]);
-
-	    return ReactBoard;
-	}(_react2.default.Component);
-
-	exports.default = ReactBoard;
-
+	    return DOM.div({ className: 'react-board' }, rows);
+	};
 
 	ReactBoard.propTypes = {
 	    /* Size of the board */
@@ -211,7 +186,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    highlight: [],
 	    clickHandler: function clickHandler() {}
 	};
-	module.exports = exports['default'];
+
+	exports.default = ReactBoard;
 
 /***/ },
 /* 1 */
@@ -299,9 +275,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return ReactBoardRow;
 	}(_react2.default.Component);
 
-	exports.default = ReactBoardRow;
-
-
 	ReactBoardRow.propTypes = {
 	    row: _react2.default.PropTypes.number.isRequired,
 	    size: _react2.default.PropTypes.number.isRequired,
@@ -315,7 +288,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    highlight: [],
 	    clickHandler: function clickHandler() {}
 	};
-	module.exports = exports['default'];
+
+	exports.default = ReactBoardRow;
 
 /***/ },
 /* 3 */
@@ -442,9 +416,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    return ReactBoardCell;
 	}(_react2.default.Component);
 
-	exports.default = ReactBoardCell;
-
-
 	ReactBoardCell.propTypes = {
 	    row: _react2.default.PropTypes.number.isRequired,
 	    col: _react2.default.PropTypes.number.isRequired,
@@ -465,7 +436,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	    isHighlighted: false,
 	    clickHandler: function clickHandler() {}
 	};
-	module.exports = exports['default'];
+
+	exports.default = ReactBoardCell;
 
 /***/ }
 /******/ ])
