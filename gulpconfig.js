@@ -35,12 +35,9 @@ config.plugins = {
             libraryTarget: 'umd',
         },
 
-        externals: [ { 'react': {
-            root: 'React',
-            commonjs2: 'react',
-            commonjs: 'react',
-            amd: 'react',
-        }} ],
+        externals: {
+            'react': 'React',
+        },
 
         module: {
             loaders: [ {
