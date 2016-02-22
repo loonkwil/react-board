@@ -91,8 +91,9 @@ ReactBoardCell.propTypes = {
         const value = props[propName];
         const validTypes = [ 'undefined', 'string', 'number', 'boolean' ];
         if (value !== null && validTypes.indexOf(typeof value) === -1) {
-            return new Error('The value of the cell should be a primitive ' +
-                'value (number, string, null, undefined or boolean)!');
+            const msg = 'The value of the cell should be a primitive value ' +
+                `(null, ${validTypes.join(', ')})!`;
+            return new Error(msg);
         }
     },
     isHighlighted: React.PropTypes.bool,

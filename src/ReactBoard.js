@@ -89,7 +89,7 @@ ReactBoard.propTypes = {
      * ]
      */
     values: React.PropTypes.arrayOf(
-        React.PropTypes.arrayOf(React.PropTypes.any)
+        React.PropTypes.array
     ),
 
     /*
