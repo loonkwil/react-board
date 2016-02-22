@@ -107,9 +107,9 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	            var rows = Array.from(new Array(height), function (_, row) {
-	                var valuesInOneRow = Array.from(new Array(_this2.props.size), function (_, colIndex) {
+	                var valuesInOneRow = Array.from(new Array(width), function (_, colIndex) {
 	                    var oneColumn = _this2.props.values[colIndex] || [];
-	                    return oneColumn[row] || null;
+	                    return oneColumn[row];
 	                });
 
 	                var highlightedCells = _this2.props.highlight.filter(function (_ref3) {
@@ -401,6 +401,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 
 	    _createClass(ReactBoardCell, [{
+	        key: 'convertValueToString',
+	        value: function convertValueToString(value) {
+	            return value === null || typeof value === 'undefined' ? '' : value.toString();
+	        }
+	    }, {
 	        key: 'shouldComponentUpdate',
 	        value: function shouldComponentUpdate(nextProps) {
 	            return this.props.value !== nextProps.value || this.props.isHighlighted !== nextProps.isHighlighted || this.props.clickHandler !== nextProps.clickHandler;
@@ -411,7 +416,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	            var _this2 = this;
 
 	            var cellName = getCellName(this.props.col, this.props.row);
-	            var cellValue = this.props.value === null ? '' : this.props.value;
+	            var cellValue = this.props.value;
 
 	            var classNames = ['react-board-cell'];
 	            if (this.props.isHighlighted) {
@@ -420,7 +425,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	            return DOM.div({
 	                className: classNames.join(' '),
-	                'data-cell-value': cellValue,
+	                'data-cell-value': this.convertValueToString(cellValue),
 	                'data-cell-name': cellName,
 	                onClick: function onClick() {
 	                    return _this2.props.clickHandler({
