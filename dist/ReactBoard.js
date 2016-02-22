@@ -96,29 +96,39 @@ return /******/ (function(modules) { // webpackBootstrap
 	        value: function render() {
 	            var _this2 = this;
 
-	            var rows = Array.from(new Array(this.props.size), function (_, row) {
+	            var size = this.props.size;
+
+	            var _ref = Array.isArray(size) ? size : [size, size];
+
+	            var _ref2 = _slicedToArray(_ref, 2);
+
+	            var width = _ref2[0];
+	            var height = _ref2[1];
+
+
+	            var rows = Array.from(new Array(height), function (_, row) {
 	                var valuesInOneRow = Array.from(new Array(_this2.props.size), function (_, colIndex) {
 	                    var oneColumn = _this2.props.values[colIndex] || [];
 	                    return oneColumn[row] || null;
 	                });
 
-	                var highlightedCells = _this2.props.highlight.filter(function (_ref) {
-	                    var _ref2 = _slicedToArray(_ref, 2);
-
-	                    var hc = _ref2[0];
-	                    var hr = _ref2[1];
-	                    return hr === row;
-	                }).map(function (_ref3) {
-	                    var _ref4 = _slicedToArray(_ref3, 1);
+	                var highlightedCells = _this2.props.highlight.filter(function (_ref3) {
+	                    var _ref4 = _slicedToArray(_ref3, 2);
 
 	                    var hc = _ref4[0];
+	                    var hr = _ref4[1];
+	                    return hr === row;
+	                }).map(function (_ref5) {
+	                    var _ref6 = _slicedToArray(_ref5, 1);
+
+	                    var hc = _ref6[0];
 	                    return hc;
 	                });
 
 	                return _react2.default.createElement(_ReactBoardRow2.default, {
 	                    key: row,
 	                    row: row,
-	                    size: _this2.props.size,
+	                    size: width,
 	                    values: valuesInOneRow,
 	                    highlight: highlightedCells,
 	                    clickHandler: _this2.props.clickHandler
@@ -136,8 +146,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 	ReactBoard.propTypes = {
-	    /* Size of the board (the width and the height is always equal) */
-	    size: _react2.default.PropTypes.number.isRequired,
+	    /* Size of the board */
+	    size: _react2.default.PropTypes.oneOfType([_react2.default.PropTypes.number, _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.number)]).isRequired,
 
 	    /*
 	     * Values of the cells. Every value must be a primitive value (number,
@@ -176,7 +186,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	     *   [ d1, d2, d3, d4 ]
 	     * ]
 	     */
-	    values: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.arrayOf(_react2.default.PropTypes.any)),
+	    values: _react2.default.PropTypes.arrayOf(_react2.default.PropTypes.array),
 
 	    /*
 	     * You can highlight some of the cells with this parameter.
@@ -437,7 +447,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	        var value = props[propName];
 	        var validTypes = ['undefined', 'string', 'number', 'boolean'];
 	        if (value !== null && validTypes.indexOf(typeof value === 'undefined' ? 'undefined' : _typeof(value)) === -1) {
-	            return new Error('The value of the cell should be a primitive ' + 'value (number, string, null, undefined or boolean)!');
+	            var msg = 'The value of the cell should be a primitive value ' + ('(null, ' + validTypes.join(', ') + ')!');
+	            return new Error(msg);
 	        }
 	    },
 	    isHighlighted: _react2.default.PropTypes.bool,
