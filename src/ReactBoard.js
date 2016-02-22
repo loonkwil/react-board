@@ -19,7 +19,7 @@ export default class ReactBoard extends React.Component {
                     new Array(width),
                     (_, colIndex) => {
                         const oneColumn = this.props.values[colIndex] || [];
-                        return oneColumn[row] || null;
+                        return oneColumn[row];
                     }
                 );
 

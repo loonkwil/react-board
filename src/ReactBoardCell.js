@@ -53,6 +53,11 @@ const getCellName = function(col, row) {
 
 
 export default class ReactBoardCell extends React.Component {
+    convertValueToString(value) {
+        return (value === null || typeof value === 'undefined') ?
+            '' : value.toString();
+    }
+
     shouldComponentUpdate(nextProps) {
         return (
             this.props.value !== nextProps.value ||
@@ -63,7 +68,7 @@ export default class ReactBoardCell extends React.Component {
 
     render() {
         const cellName = getCellName(this.props.col, this.props.row);
-        const cellValue = (this.props.value === null) ? '' : this.props.value;
+        const cellValue = this.props.value;
 
         const classNames = [ 'react-board-cell' ];
         if (this.props.isHighlighted) {
@@ -72,7 +77,7 @@ export default class ReactBoardCell extends React.Component {
 
         return DOM.div({
             className: classNames.join(' '),
-            'data-cell-value': cellValue,
+            'data-cell-value': this.convertValueToString(cellValue),
             'data-cell-name': cellName,
             onClick: () => this.props.clickHandler({
                 col: this.props.col,
