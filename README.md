@@ -48,7 +48,7 @@ export default class ChessApp extends React.Component {
 
     render() {
         return React.createElement(ReactBoard, {
-            size: 8,
+            size: [ 8 /* width */, 8 /* height */ ], // or just `size: 8`
             values: this.board,
             highlight: [ [ 4 /* col index */, 3 /* row index */, ] ],
             clickHandler: this.clickHandler,

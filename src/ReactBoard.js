@@ -8,11 +8,15 @@ const DOM = React.DOM;
 
 export default class ReactBoard extends React.Component {
     render() {
+        const size = this.props.size;
+        const [ width, height ] = (Array.isArray(size)) ?
+            size : [ size, size ];
+
         const rows = Array.from(
-            new Array(this.props.size),
+            new Array(height),
             (_, row) => {
                 const valuesInOneRow = Array.from(
-                    new Array(this.props.size),
+                    new Array(width),
                     (_, colIndex) => {
                         const oneColumn = this.props.values[colIndex] || [];
                         return oneColumn[row] || null;
@@ -26,7 +30,7 @@ export default class ReactBoard extends React.Component {
                 return React.createElement(ReactBoardRow, {
                     key: row,
                     row,
-                    size: this.props.size,
+                    size: width,
                     values: valuesInOneRow,
                     highlight: highlightedCells,
                     clickHandler: this.props.clickHandler,
@@ -39,8 +43,13 @@ export default class ReactBoard extends React.Component {
 }
 
 ReactBoard.propTypes = {
-    /* Size of the board (the width and the height is always equal) */
-    size: React.PropTypes.number.isRequired,
+    /* Size of the board */
+    size: React.PropTypes.oneOfType([
+        React.PropTypes.number,
+        React.PropTypes.arrayOf(
+            React.PropTypes.number
+        ),
+    ]).isRequired,
 
     /*
      * Values of the cells. Every value must be a primitive value (number,
