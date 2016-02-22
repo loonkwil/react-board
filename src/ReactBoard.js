@@ -6,41 +6,38 @@ import ReactBoardRow from './ReactBoardRow';
 const DOM = React.DOM;
 
 
-export default class ReactBoard extends React.Component {
-    render() {
-        const size = this.props.size;
-        const [ width, height ] = (Array.isArray(size)) ?
-            size : [ size, size ];
+const ReactBoard = function({ size, values, highlight, clickHandler }) {
+    const [ width, height ] = (Array.isArray(size)) ?
+        size : [ size, size ];
 
-        const rows = Array.from(
-            new Array(height),
-            (_, row) => {
-                const valuesInOneRow = Array.from(
-                    new Array(width),
-                    (_, colIndex) => {
-                        const oneColumn = this.props.values[colIndex] || [];
-                        return oneColumn[row];
-                    }
-                );
+    const rows = Array.from(
+        new Array(height),
+        (_, row) => {
+            const valuesInOneRow = Array.from(
+                new Array(width),
+                (_, colIndex) => {
+                    const oneColumn = values[colIndex] || [];
+                    return oneColumn[row];
+                }
+            );
 
-                const highlightedCells = this.props.highlight.
-                    filter(([ hc, hr ]) => (hr === row)).
-                    map(([ hc ]) => hc);
+            const highlightedCells = highlight.
+                filter(([ hc, hr ]) => (hr === row)).
+                map(([ hc ]) => hc);
 
-                return React.createElement(ReactBoardRow, {
-                    key: row,
-                    row,
-                    size: width,
-                    values: valuesInOneRow,
-                    highlight: highlightedCells,
-                    clickHandler: this.props.clickHandler,
-                });
-            }
-        ).reverse();
+            return React.createElement(ReactBoardRow, {
+                key: row,
+                row,
+                size: width,
+                values: valuesInOneRow,
+                highlight: highlightedCells,
+                clickHandler,
+            });
+        }
+    ).reverse();
 
-        return DOM.div({ className: 'react-board' }, rows);
-    }
-}
+    return DOM.div({ className: 'react-board' }, rows);
+};
 
 ReactBoard.propTypes = {
     /* Size of the board */
@@ -117,3 +114,5 @@ ReactBoard.defaultProps = {
     highlight: [],
     clickHandler: function() {},
 };
+
+export default ReactBoard;

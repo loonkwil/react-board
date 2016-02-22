@@ -52,7 +52,7 @@ const getCellName = function(col, row) {
 };
 
 
-export default class ReactBoardCell extends React.Component {
+class ReactBoardCell extends React.Component {
     convertValueToString(value) {
         return (value === null || typeof value === 'undefined') ?
             '' : value.toString();
@@ -110,3 +110,5 @@ ReactBoardCell.defaultProps = {
     isHighlighted: false,
     clickHandler: function() {},
 };
+
+export default ReactBoardCell;

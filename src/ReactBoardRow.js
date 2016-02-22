@@ -18,7 +18,7 @@ const arrayEq = function(arr1, arr2) {
 };
 
 
-export default class ReactBoardRow extends React.Component {
+class ReactBoardRow extends React.Component {
     shouldComponentUpdate(nextProps) {
         return (
             !arrayEq(this.props.values, nextProps.values) ||
@@ -64,3 +64,5 @@ ReactBoardRow.defaultProps = {
     highlight: [],
     clickHandler: function() {},
 };
+
+export default ReactBoardRow;
