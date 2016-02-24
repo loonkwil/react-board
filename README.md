@@ -5,21 +5,17 @@ for typical board games (like chess, reversi, etc.).
 
 Example usage: https://github.com/loonkwil/reversi
 
-It is written in ES2015 (previously called ES6), so you should use
-[Babel](https://babeljs.io) to transpile it (and probably
-[webpack](http://webpack.github.io) to load it).
-
 # Install
 
 ```bash
-npm install https://github.com/loonkwil/ReactBoard.git --save
+npm install react-board --save
 ```
 
 # Usage
 
 ```javascript
-import React from 'React';
-import ReactBoard from 'ReactBoard';
+import React from 'react';
+import ReactBoard from 'react-board';
 
 export default class ChessApp extends React.Component {
     constructor(props) {
