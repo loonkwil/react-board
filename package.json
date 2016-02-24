@@ -1,6 +1,6 @@
 {
   "name": "react-board",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "authors": [
     "Peter Simon <simonpepe@gmail.com>"
   ],
@@ -10,7 +10,9 @@
   "bugs": "https://github.com/loonkwil/react-board/issues",
   "main": "dist/ReactBoard",
   "files": [
-    "*.md", "src", "dist"
+    "*.md",
+    "src",
+    "dist"
   ],
   "scripts": {
     "test": "gulp test",
