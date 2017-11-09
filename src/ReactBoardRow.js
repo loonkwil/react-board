@@ -1,6 +1,8 @@
 'use strict';
 
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import ReactBoardCell from './ReactBoardCell';
 
 const DOM = React.DOM;
@@ -50,13 +52,13 @@ class ReactBoardRow extends React.Component {
 }
 
 ReactBoardRow.propTypes = {
-    row: React.PropTypes.number.isRequired,
-    size: React.PropTypes.number.isRequired,
-    values: React.PropTypes.array,
-    highlight: React.PropTypes.arrayOf(
-        React.PropTypes.number
+    row: PropTypes.number.isRequired,
+    size: PropTypes.number.isRequired,
+    values: PropTypes.array,
+    highlight: PropTypes.arrayOf(
+        PropTypes.number
     ),
-    clickHandler: React.PropTypes.func,
+    clickHandler: PropTypes.func,
 };
 
 ReactBoardRow.defaultProps = {

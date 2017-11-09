@@ -1,6 +1,8 @@
 'use strict';
 
 import React from 'react';
+import PropTypes from 'prop-types';
+
 import ReactBoardRow from './ReactBoardRow';
 
 const DOM = React.DOM;
@@ -41,10 +43,10 @@ const ReactBoard = function({ size, values, highlight, clickHandler }) {
 
 ReactBoard.propTypes = {
     /* Size of the board */
-    size: React.PropTypes.oneOfType([
-        React.PropTypes.number,
-        React.PropTypes.arrayOf(
-            React.PropTypes.number
+    size: PropTypes.oneOfType([
+        PropTypes.number,
+        PropTypes.arrayOf(
+            PropTypes.number
         ),
     ]).isRequired,
 
@@ -85,8 +87,8 @@ ReactBoard.propTypes = {
      *   [ d1, d2, d3, d4 ]
      * ]
      */
-    values: React.PropTypes.arrayOf(
-        React.PropTypes.array
+    values: PropTypes.arrayOf(
+        PropTypes.array
     ),
 
     /*
@@ -101,12 +103,12 @@ ReactBoard.propTypes = {
      * parameter should look like this:
      * highlight = [ [ 0, 0 ], [ 1, 2 ] ]
      */
-    highlight: React.PropTypes.arrayOf(
-        React.PropTypes.arrayOf(React.PropTypes.number)
+    highlight: PropTypes.arrayOf(
+        PropTypes.arrayOf(PropTypes.number)
     ),
 
     /* Do something when the user click the cells */
-    clickHandler: React.PropTypes.func,
+    clickHandler: PropTypes.func,
 };
 
 ReactBoard.defaultProps = {

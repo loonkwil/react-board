@@ -1,6 +1,7 @@
 'use strict';
 
 import React from 'react';
+import PropTypes from 'prop-types';
 
 const DOM = React.DOM;
 
@@ -90,8 +91,8 @@ class ReactBoardCell extends React.Component {
 }
 
 ReactBoardCell.propTypes = {
-    row: React.PropTypes.number.isRequired,
-    col: React.PropTypes.number.isRequired,
+    row: PropTypes.number.isRequired,
+    col: PropTypes.number.isRequired,
     value: (props, propName) => {
         const value = props[propName];
         const validTypes = [ 'undefined', 'string', 'number', 'boolean' ];
@@ -101,8 +102,8 @@ ReactBoardCell.propTypes = {
             return new Error(msg);
         }
     },
-    isHighlighted: React.PropTypes.bool,
-    clickHandler: React.PropTypes.func,
+    isHighlighted: PropTypes.bool,
+    clickHandler: PropTypes.func,
 };
 
 ReactBoardCell.defaultProps = {
