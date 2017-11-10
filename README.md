@@ -61,8 +61,7 @@ List all gulp task: `gulp --tasks`
 
 ### Test
 
-Run the linting (jshint, jsonlint) scripts: `gulp lint`, `gulp test` or
-`npm test`
+Run the linting tasks: `npm run lint`
 
 ### Compile
 

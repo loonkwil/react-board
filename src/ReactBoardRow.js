@@ -1,23 +1,10 @@
-'use strict';
-
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { range, arrayEq } from './utils';
 import ReactBoardCell from './ReactBoardCell';
 
-const DOM = React.DOM;
-
-/**
- * @param {Array.<number|string|null|undefined|boolean>} arr1
- * @param {Array.<number|string|null|undefined|boolean>} arr2
- * @return {boolean}
- */
-const arrayEq = function(arr1, arr2) {
-    return (
-        arr1.length === arr2.length &&
-        arr1.every((value, index) => (value === arr2[index]))
-    );
-};
+const { DOM } = React;
 
 
 class ReactBoardRow extends React.Component {
@@ -31,9 +18,8 @@ class ReactBoardRow extends React.Component {
     }
 
     render() {
-        const cells = Array.from(
-            new Array(this.props.size),
-            (_, col) => {
+        const cells = range(0, this.props.size - 1)
+            .map((col) => {
                 const isHighlighted = (this.props.highlight.indexOf(col) >= 0);
 
                 return React.createElement(ReactBoardCell, {
@@ -44,8 +30,7 @@ class ReactBoardRow extends React.Component {
                     isHighlighted,
                     clickHandler: this.props.clickHandler,
                 });
-            }
-        );
+            });
 
         return DOM.div({ className: 'react-board-row' }, cells);
     }
@@ -55,16 +40,14 @@ ReactBoardRow.propTypes = {
     row: PropTypes.number.isRequired,
     size: PropTypes.number.isRequired,
     values: PropTypes.array,
-    highlight: PropTypes.arrayOf(
-        PropTypes.number
-    ),
+    highlight: PropTypes.arrayOf(PropTypes.number),
     clickHandler: PropTypes.func,
 };
 
 ReactBoardRow.defaultProps = {
     values: [],
     highlight: [],
-    clickHandler: function() {},
+    clickHandler() {},
 };
 
 export default ReactBoardRow;

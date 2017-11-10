@@ -1,6 +1,3 @@
-'use strict';
-
-import config from './gulpconfig.js';
 import gulp from 'gulp';
 import nopt from 'nopt'; // handle CLI arguments
 import fs from 'fs';
@@ -12,10 +9,11 @@ import del from 'del';
 import runSequence from 'run-sequence';
 
 import gulpLoadPlugins from 'gulp-load-plugins';
-const plugins = gulpLoadPlugins();
-
 import webpack from 'webpack-stream';
 
+import config from './gulpconfig';
+
+const plugins = gulpLoadPlugins();
 
 // helpers
 /**
@@ -24,150 +22,107 @@ import webpack from 'webpack-stream';
  * @throws {Error}
  * @return {string}
  */
-let getVersionNumberFromFile = function(packageFiles) {
+const getVersionNumberFromFile = function (packageFiles) {
     if (packageFiles.length === 0) {
-        throw new Error(
-            'Where are your package files (package.json, bower.json)?'
-        );
+        throw new Error('Where are your package files (package.json, bower.json)?');
     }
 
-    let packageFile = packageFiles[0];
-    let fileContent = fs.readFileSync(
-        `${__dirname}/${packageFile}`, { encoding: 'utf-8' }
-    );
+    const packageFile = packageFiles[0];
+    const fileContent = fs.readFileSync(`${__dirname}/${packageFile}`, { encoding: 'utf-8' });
 
-    let pkg = JSON.parse(fileContent);
+    const pkg = JSON.parse(fileContent);
     if (!pkg.version) {
-        throw new Error(
-            `Your package file (${packageFile}) does not contain` +
-                'any version number!'
-        );
+        throw new Error(`Your package file (${packageFile}) does not contain` +
+            'any version number!');
     }
 
     return pkg.version;
 };
 
 // parse CLI arguments with nopt
-nopt.invalidHandler = function(key) {
-    let msg = `Invalid "${key}" parameter!`;
+nopt.invalidHandler = function (key) {
+    const msg = `Invalid "${key}" parameter!`;
     throw new Error(msg);
 };
 
 nopt.typeDefs.version = {
     type: 'version',
     validate(data, key, val) {
-        val = (val + '').toLowerCase();
+        val = `${val.toLowerCase()}`;
 
         // major: 1.0.0
         // minor: 0.1.0
         // patch: 0.0.2
-        const shortHands = [ 'major', 'minor', 'patch' ];
+        const shortHands = ['major', 'minor', 'patch'];
         if (shortHands.indexOf(val) === -1 && !semver.valid(val)) {
             return false;
         }
         data[key] = val;
-    }
+
+        return true;
+    },
 };
 
-let argv = nopt({ version: 'version' }, { v: '--version' }, process.argv, 1);
+const argv = nopt({ version: 'version' }, { v: '--version' }, process.argv, 1);
 
 // set the default values
 argv.version = argv.version || 'patch';
 
 // Task for bumping the version number
 // Usage: `gulp bump [--version <version>]`
-gulp.task('bump', (cb) =>
-    runSequence('bump-version-number', 'bump-commit-and-tag', cb)
-);
+gulp.task('bump', cb => runSequence('bump-version-number', 'bump-commit-and-tag', cb));
 
 gulp.task('bump-version-number', () => {
-    let options = {};
+    const options = {};
 
-    const shortHands = [ 'major', 'minor', 'patch' ];
-    let key = (shortHands.indexOf(argv.version) !== -1) ? 'type' : 'version';
+    const shortHands = ['major', 'minor', 'patch'];
+    const key = (shortHands.indexOf(argv.version) !== -1) ? 'type' : 'version';
     options[key] = argv.version;
 
-    let packageFiles = config.plugins.bump.packageFiles;
-    return gulp.src(packageFiles).
-        pipe(plugins.bump(options)).
-        pipe(gulp.dest('./'));
+    const { packageFiles } = config.plugins.bump;
+    return gulp.src(packageFiles)
+        .pipe(plugins.bump(options))
+        .pipe(gulp.dest('./'));
 });
 
-gulp.task('bump-commit-and-tag', (cb) =>
-    runSequence('bump-commit', 'bump-tag', cb)
-);
+gulp.task('bump-commit-and-tag', cb => runSequence('bump-commit', 'bump-tag', cb));
 
 gulp.task('bump-commit', () => {
-    let packageFiles = config.plugins.bump.packageFiles;
-    let message = `Release v${getVersionNumberFromFile(packageFiles)}`;
+    const { packageFiles } = config.plugins.bump;
+    const message = `Release v${getVersionNumberFromFile(packageFiles)}`;
 
-    let filesToCommit = [].concat(packageFiles, config.path.dist + '/**/*');
+    const filesToCommit = [].concat(packageFiles, `${config.path.dist}/**/*`);
     return gulp.src(filesToCommit).pipe(plugins.git.commit(message));
 });
 
 gulp.task('bump-tag', (cb) => {
-    let packageFiles = config.plugins.bump.packageFiles;
-    let version = getVersionNumberFromFile(packageFiles);
-    let message = `Release v${version}`;
+    const { packageFiles } = config.plugins.bump;
+    const version = getVersionNumberFromFile(packageFiles);
+    const message = `Release v${version}`;
 
     plugins.git.tag(`v${version}`, message, cb);
 });
 
 
-// Task for testing and linting
-// Usage: `gulp test` or `npm test`
-gulp.task('test', [ 'lint' ]);
-
-gulp.task('lint', [ 'jscs', 'jshint', 'jsonlint' ]);
-
-gulp.task('jscs', () =>
-    gulp.src(config.filesForAnalyze.js).
-        pipe(plugins.jscs()).
-        pipe(plugins.jscs.reporter())
-);
-
-gulp.task('jshint', () =>
-    gulp.src(config.filesForAnalyze.js).
-        pipe(plugins.jshint()).
-        pipe(plugins.jshint.reporter())
-);
-
-gulp.task('jsonlint', () =>
-    gulp.src(config.filesForAnalyze.json).
-        pipe(plugins.jsonlint()).
-        pipe(plugins.jsonlint.reporter())
-);
-
-
 // Task for distributing
 // Usage: `gulp`, `npm start`, `gulp dist` or `gulp build`
-gulp.task('default', [ 'dist' ]);
-gulp.task('build', [ 'dist' ]);
+gulp.task('default', ['dist']);
+gulp.task('build', ['dist']);
 
-gulp.task('dist', (cb) =>
-    runSequence('cleanup', 'webpack-build', 'minify', cb)
-);
+gulp.task('dist', cb => runSequence('cleanup', 'webpack-build', 'minify', cb));
 
-gulp.task('cleanup', () =>
-    del(config.path.dist)
-);
+gulp.task('cleanup', () => del(config.path.dist));
 
-gulp.task('webpack-build', () =>
-    gulp.src(config.plugins.webpack.entry).
-        pipe(webpack(config.plugins.webpack)).
-        pipe(gulp.dest(config.path.dist))
-);
+gulp.task('webpack-build', () => gulp.src(config.plugins.webpack.entry)
+    .pipe(webpack(config.plugins.webpack))
+    .pipe(gulp.dest(config.path.dist)));
 
-gulp.task('minify', () =>
-    gulp.src(config.path.dist + '/*.js').
-        pipe(plugins.uglify()).
-        pipe(plugins.rename({ suffix: '.min' })).
-        pipe(gulp.dest(config.path.dist))
-);
+gulp.task('minify', () => gulp.src(`${config.path.dist}/*.js`)
+    .pipe(plugins.uglify())
+    .pipe(plugins.rename({ suffix: '.min' }))
+    .pipe(gulp.dest(config.path.dist)));
 
 
 // Task for releasing
 // Usage: `gulp release [--version <version>|-v <version>]`
-gulp.task('release', (cb) =>
-    runSequence('dist', 'bump', cb)
-);
+gulp.task('release', cb => runSequence('dist', 'bump', cb));

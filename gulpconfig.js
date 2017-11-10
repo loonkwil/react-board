@@ -1,5 +1,3 @@
-'use strict';
-
 const config = {};
 
 // Configurable paths
@@ -9,20 +7,11 @@ config.path = {
     dist: 'dist',
 };
 
-// Files for linting and stuff like that
-config.filesForAnalyze = {
-    js: [
-        'gulpconfig.js', 'gulpfile.babel.js',
-        config.path.src + '/**/*.js',
-    ],
-    json: [ '*.json', '.*rc' ],
-};
-
 // Plugins preferences
 config.plugins = {
     // Bumps the version number (and create a git commit and tag)
     bump: {
-        packageFiles: [ 'package.json' ],
+        packageFiles: ['package.json'],
     },
 
     // http://webpack.github.io/docs/configuration.html
@@ -35,19 +24,21 @@ config.plugins = {
             libraryTarget: 'umd',
         },
 
-        externals: [ { 'react': {
-            root: 'React',
-            commonjs2: 'react',
-            commonjs: 'react',
-            amd: 'react',
-        }} ],
+        externals: [{
+            react: {
+                root: 'React',
+                commonjs2: 'react',
+                commonjs: 'react',
+                amd: 'react',
+            },
+        }],
 
         module: {
-            loaders: [ {
+            loaders: [{
                 test: /\.js$/,
                 exclude: /node_modules/,
-                loaders: [ 'babel-loader' ],
-            } ]
+                loaders: ['babel-loader'],
+            }],
         },
     },
 };

@@ -1,42 +1,39 @@
-'use strict';
-
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { range } from './utils';
 import ReactBoardRow from './ReactBoardRow';
 
-const DOM = React.DOM;
+const { DOM } = React;
 
+const ReactBoard = function ({
+    size, values, highlight, clickHandler,
+}) {
+    const [width, height] = (Array.isArray(size)) ?
+        size : [size, size];
 
-const ReactBoard = function({ size, values, highlight, clickHandler }) {
-    const [ width, height ] = (Array.isArray(size)) ?
-        size : [ size, size ];
-
-    const rows = Array.from(
-        new Array(height),
-        (_, row) => {
-            const valuesInOneRow = Array.from(
-                new Array(width),
-                (_, colIndex) => {
+    const rows = range(0, height - 1)
+        .map((rowIndex) => {
+            const valuesInOneRow = range(0, width - 1)
+                .map((colIndex) => {
                     const oneColumn = values[colIndex] || [];
-                    return oneColumn[row];
-                }
-            );
+                    return oneColumn[rowIndex];
+                });
 
-            const highlightedCells = highlight.
-                filter(([ hc, hr ]) => (hr === row)).
-                map(([ hc ]) => hc);
+            const highlightedCells = highlight
+                .filter(([, hr]) => (hr === rowIndex))
+                .map(([hc]) => hc);
 
             return React.createElement(ReactBoardRow, {
-                key: row,
-                row,
+                key: rowIndex,
+                row: rowIndex,
                 size: width,
                 values: valuesInOneRow,
                 highlight: highlightedCells,
                 clickHandler,
             });
-        }
-    ).reverse();
+        })
+        .reverse();
 
     return DOM.div({ className: 'react-board' }, rows);
 };
@@ -45,9 +42,7 @@ ReactBoard.propTypes = {
     /* Size of the board */
     size: PropTypes.oneOfType([
         PropTypes.number,
-        PropTypes.arrayOf(
-            PropTypes.number
-        ),
+        PropTypes.arrayOf(PropTypes.number),
     ]).isRequired,
 
     /*
@@ -87,9 +82,7 @@ ReactBoard.propTypes = {
      *   [ d1, d2, d3, d4 ]
      * ]
      */
-    values: PropTypes.arrayOf(
-        PropTypes.array
-    ),
+    values: PropTypes.arrayOf(PropTypes.array),
 
     /*
      * You can highlight some of the cells with this parameter.
@@ -103,9 +96,7 @@ ReactBoard.propTypes = {
      * parameter should look like this:
      * highlight = [ [ 0, 0 ], [ 1, 2 ] ]
      */
-    highlight: PropTypes.arrayOf(
-        PropTypes.arrayOf(PropTypes.number)
-    ),
+    highlight: PropTypes.arrayOf(PropTypes.arrayOf(PropTypes.number)),
 
     /* Do something when the user click the cells */
     clickHandler: PropTypes.func,
@@ -114,7 +105,7 @@ ReactBoard.propTypes = {
 ReactBoard.defaultProps = {
     values: [],
     highlight: [],
-    clickHandler: function() {},
+    clickHandler() {},
 };
 
 export default ReactBoard;

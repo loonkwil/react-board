@@ -1,64 +1,21 @@
-'use strict';
-
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const DOM = React.DOM;
+import { getCellName } from './utils';
+
+const { DOM } = React;
 
 /**
- * Returns an array of elements from start to end, inclusive
- * @param {number} start
- * @param {number} end
- * @return {Array.<number>}
- */
-const range = function(start, end) {
-    return Array.from(
-        new Array(end - start + 1),
-        (_, i) => start + i
-    );
-};
-
-/**
- * @param {number} col
+ * @param {*} value
  * @return {string}
  */
-const getColName = (function() {
-    const signs = range('a'.charCodeAt(), 'z'.charCodeAt()).
-        map((code) => String.fromCharCode(code));
-
-    return function getColName(col) {
-        if (col < signs.length) {
-            return signs[col];
-        }
-        return getColName(Math.floor(col / signs.length) - 1) +
-            getColName(col % signs.length);
-    };
-}());
-
-/**
- * @param {number} row
- * @return {string}
- */
-const getRowName = function(row) {
-    return (row + 1).toString();
-};
-
-/**
- * @param {number} col
- * @param {number} row
- * @return {string}
- */
-const getCellName = function(col, row) {
-    return getColName(col) + getRowName(row);
+const convertValueToString = function (value) {
+    return (value === null || typeof value === 'undefined') ?
+        '' : value.toString();
 };
 
 
 class ReactBoardCell extends React.Component {
-    convertValueToString(value) {
-        return (value === null || typeof value === 'undefined') ?
-            '' : value.toString();
-    }
-
     shouldComponentUpdate(nextProps) {
         return (
             this.props.value !== nextProps.value ||
@@ -71,21 +28,21 @@ class ReactBoardCell extends React.Component {
         const cellName = getCellName(this.props.col, this.props.row);
         const cellValue = this.props.value;
 
-        const classNames = [ 'react-board-cell' ];
+        const classNames = ['react-board-cell'];
         if (this.props.isHighlighted) {
             classNames.push('react-board-highlighted');
         }
 
         return DOM.div({
             className: classNames.join(' '),
-            'data-cell-value': this.convertValueToString(cellValue),
+            'data-cell-value': convertValueToString(cellValue),
             'data-cell-name': cellName,
             onClick: () => this.props.clickHandler({
                 col: this.props.col,
                 row: this.props.row,
                 cellName,
                 cellValue,
-            })
+            }),
         });
     }
 }
@@ -95,12 +52,14 @@ ReactBoardCell.propTypes = {
     col: PropTypes.number.isRequired,
     value: (props, propName) => {
         const value = props[propName];
-        const validTypes = [ 'undefined', 'string', 'number', 'boolean' ];
+        const validTypes = ['undefined', 'string', 'number', 'boolean'];
         if (value !== null && validTypes.indexOf(typeof value) === -1) {
             const msg = 'The value of the cell should be a primitive value ' +
                 `(null, ${validTypes.join(', ')})!`;
             return new Error(msg);
         }
+
+        return null;
     },
     isHighlighted: PropTypes.bool,
     clickHandler: PropTypes.func,
@@ -109,7 +68,7 @@ ReactBoardCell.propTypes = {
 ReactBoardCell.defaultProps = {
     value: null,
     isHighlighted: false,
-    clickHandler: function() {},
+    clickHandler() {},
 };
 
 export default ReactBoardCell;
