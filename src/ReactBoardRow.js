@@ -4,8 +4,6 @@ import PropTypes from 'prop-types';
 import { range, arrayEq } from './utils';
 import ReactBoardCell from './ReactBoardCell';
 
-const { DOM } = React;
-
 
 class ReactBoardRow extends React.Component {
     shouldComponentUpdate(nextProps) {
@@ -22,17 +20,21 @@ class ReactBoardRow extends React.Component {
             .map((col) => {
                 const isHighlighted = (this.props.highlight.indexOf(col) >= 0);
 
-                return React.createElement(ReactBoardCell, {
-                    key: col,
-                    row: this.props.row,
-                    col,
-                    value: this.props.values[col],
-                    isHighlighted,
-                    clickHandler: this.props.clickHandler,
-                });
+                return (
+                    <ReactBoardCell
+                        key={col}
+                        row={this.props.row}
+                        col={col}
+                        value={this.props.values[col]}
+                        isHighlighted={isHighlighted}
+                        clickHandler={this.props.clickHandler}
+                    />
+                );
             });
 
-        return DOM.div({ className: 'react-board-row' }, cells);
+        return (
+            <div className="react-board-row">{cells}</div>
+        );
     }
 }
 

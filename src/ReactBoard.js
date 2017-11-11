@@ -4,7 +4,6 @@ import PropTypes from 'prop-types';
 import { range } from './utils';
 import ReactBoardRow from './ReactBoardRow';
 
-const { DOM } = React;
 
 function ReactBoard({
     size, values, highlight, clickHandler,
@@ -24,18 +23,22 @@ function ReactBoard({
                 .filter(([, hr]) => (hr === rowIndex))
                 .map(([hc]) => hc);
 
-            return React.createElement(ReactBoardRow, {
-                key: rowIndex,
-                row: rowIndex,
-                size: width,
-                values: valuesInOneRow,
-                highlight: highlightedCells,
-                clickHandler,
-            });
+            return (
+                <ReactBoardRow
+                    key={rowIndex}
+                    row={rowIndex}
+                    size={width}
+                    values={valuesInOneRow}
+                    highlight={highlightedCells}
+                    clickHandler={clickHandler}
+                />
+            );
         })
         .reverse();
 
-    return DOM.div({ className: 'react-board' }, rows);
+    return (
+        <div className="react-board">{rows}</div>
+    );
 }
 
 ReactBoard.propTypes = {

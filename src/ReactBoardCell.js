@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 
 import { getCellName } from './utils';
 
-const { DOM } = React;
-
 /**
  * @param {*} value
  * @return {string}
@@ -33,17 +31,19 @@ class ReactBoardCell extends React.Component {
             classNames.push('react-board-highlighted');
         }
 
-        return DOM.div({
-            className: classNames.join(' '),
-            'data-cell-value': convertValueToString(cellValue),
-            'data-cell-name': cellName,
-            onClick: () => this.props.clickHandler({
-                col: this.props.col,
-                row: this.props.row,
-                cellName,
-                cellValue,
-            }),
-        });
+        return (
+            <div
+                className={classNames.join(' ')}
+                data-cell-value={convertValueToString(cellValue)}
+                data-cell-name={cellName}
+                onClick={() => this.props.clickHandler({
+                    col: this.props.col,
+                    row: this.props.row,
+                    cellName,
+                    cellValue,
+                })}
+            />
+        );
     }
 }
 
