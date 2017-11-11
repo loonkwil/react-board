@@ -9,10 +9,10 @@ const { DOM } = React;
  * @param {*} value
  * @return {string}
  */
-const convertValueToString = function (value) {
+function convertValueToString(value) {
     return (value === null || typeof value === 'undefined') ?
         '' : value.toString();
-};
+}
 
 
 class ReactBoardCell extends React.Component {

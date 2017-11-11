@@ -6,7 +6,7 @@ import ReactBoardRow from './ReactBoardRow';
 
 const { DOM } = React;
 
-const ReactBoard = function ({
+function ReactBoard({
     size, values, highlight, clickHandler,
 }) {
     const [width, height] = (Array.isArray(size)) ?
@@ -36,7 +36,7 @@ const ReactBoard = function ({
         .reverse();
 
     return DOM.div({ className: 'react-board' }, rows);
-};
+}
 
 ReactBoard.propTypes = {
     /* Size of the board */
