@@ -31,13 +31,6 @@
     "eslint-config-airbnb-base": "^12.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-react": "^7.4.0",
-    "gulp": "^3.9.0",
-    "gulp-bump": "^1.0.0",
-    "gulp-git": "^1.2.0",
-    "gulp-load-plugins": "^1.2.0",
-    "nopt": "^3.0.0",
-    "run-sequence": "^1.1.0",
-    "semver": "^5.1.0",
     "uglifyjs-webpack-plugin": "^1.0.1",
     "webpack": "^3.8.1"
   },
