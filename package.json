@@ -20,8 +20,8 @@
     "build": "webpack"
   },
   "dependencies": {
-    "react": "~0.14.0",
-    "prop-types": "^15.6.0"
+    "prop-types": "^15.6.0",
+    "react": "^16.1.0"
   },
   "devDependencies": {
     "@babel/core": "^7.0.0-beta.31",
