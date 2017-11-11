@@ -2,14 +2,12 @@ import gulp from 'gulp';
 import nopt from 'nopt'; // handle CLI arguments
 import fs from 'fs';
 import semver from 'semver';
-import del from 'del';
 
 // Temporary solution until gulp 4
 // https://github.com/gulpjs/gulp/issues/355
 import runSequence from 'run-sequence';
 
 import gulpLoadPlugins from 'gulp-load-plugins';
-import webpack from 'webpack-stream';
 
 import config from './gulpconfig';
 
@@ -102,27 +100,3 @@ gulp.task('bump-tag', (cb) => {
 
     plugins.git.tag(`v${version}`, message, cb);
 });
-
-
-// Task for distributing
-// Usage: `gulp`, `npm start`, `gulp dist` or `gulp build`
-gulp.task('default', ['dist']);
-gulp.task('build', ['dist']);
-
-gulp.task('dist', cb => runSequence('cleanup', 'webpack-build', 'minify', cb));
-
-gulp.task('cleanup', () => del(config.path.dist));
-
-gulp.task('webpack-build', () => gulp.src(config.plugins.webpack.entry)
-    .pipe(webpack(config.plugins.webpack))
-    .pipe(gulp.dest(config.path.dist)));
-
-gulp.task('minify', () => gulp.src(`${config.path.dist}/*.js`)
-    .pipe(plugins.uglify())
-    .pipe(plugins.rename({ suffix: '.min' }))
-    .pipe(gulp.dest(config.path.dist)));
-
-
-// Task for releasing
-// Usage: `gulp release [--version <version>|-v <version>]`
-gulp.task('release', cb => runSequence('dist', 'bump', cb));
