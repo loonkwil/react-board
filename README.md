@@ -1,3 +1,5 @@
+**This project is not maintained anymore**
+
 # React Board
 
 [React](https://facebook.github.io/react) components for rendering the board
